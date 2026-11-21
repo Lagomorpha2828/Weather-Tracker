@@ -29,6 +29,6 @@ on:
           git push
           git config user.name "Weather Agent"
 
-git config user.email "actions@github.com"
-git add historical_weather.csv forecast_weather.csv daily_log.csv
-git commit -m "Update weather data" || echo "No changes to commit"
+          git config user.email "actions@github.com"
+          git add historical_weather.csv forecast_weather.csv daily_log.csv
+          git commit -m "Update weather data" || echo "No changes to commit"
