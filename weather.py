@@ -60,7 +60,7 @@ all_data = []
 for year in range(current_year - 5, current_year):
     start = date(year, CAMP_MONTH, CAMP_START_DAY)
     end = date(year, CAMP_MONTH, CAMP_END_DAY)
-    data = get_current_weather(LATITUDE, LONGITUDE, start, end)
+    data = get_historical_weather(LATITUDE, LONGITUDE, start, end)
     all_data.append(data)
     print(f"Fetched data for {year}")
 
@@ -76,14 +76,16 @@ for year_data in all_data:
 historical_df = pd.concat(dfs, ignore_index=True)
 
 # Do the new stuff
-temp_c = data["current"]["temperature_2m"]
-log_df.to_csv(log_file, mode='a', header=not os.path.isfile(log_file), index=False)
+current_data = get_current_weather(LATITUDE, LONGITUDE)
+current_temp = current_data["current"]["temperature_2m"]
+current_time = current_data["current"]["time"]
 log_file = "daily_log.csv"
 log_df = pd.DataFrame({
     "date": [str(today)],
     "time": [current_time],
     "temperature_2m": [current_temp]
 })
+log_df.to_csv(log_file, mode='a', header=not os.path.isfile(log_file), index=False)
 
 # Get the 7-day forecast
 forecast_data = get_forecast(LATITUDE, LONGITUDE)
